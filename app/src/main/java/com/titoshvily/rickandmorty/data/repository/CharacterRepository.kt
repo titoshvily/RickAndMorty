@@ -16,4 +16,8 @@ class CharacterRepository {
         return api.getModelById(id)
     }
 
+
+
+
+
 }

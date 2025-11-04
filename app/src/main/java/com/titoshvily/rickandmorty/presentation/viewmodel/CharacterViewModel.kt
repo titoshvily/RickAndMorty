@@ -55,5 +55,10 @@ class CharacterViewModel: ViewModel() {
         }
 
     }
-
 }
+
+
+
+
+
+
