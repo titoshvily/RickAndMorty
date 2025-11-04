@@ -12,11 +12,27 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CharacterViewModel: ViewModel() {
+
+    //MainList
     private val _characters = MutableStateFlow<List<Character>>(emptyList())
     val characters: StateFlow<List<Character>> = _characters.asStateFlow()
 
+        //SearchList
+
+    private val _search = MutableStateFlow<List<Character>>(emptyList())
+    val search: StateFlow<List<Character>> = _search.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+
+        //Status download
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    // Flag status search
+    private val _isSearchMode = MutableStateFlow(false)
+    val isSearchMode: StateFlow<Boolean> = _isSearchMode.asStateFlow()
 
     private var _hasNextPage = true
     val hasNextPage: Boolean get() = _hasNextPage
@@ -55,6 +71,47 @@ class CharacterViewModel: ViewModel() {
         }
 
     }
+
+
+
+    fun loadSearchCharacters(name:String){
+        viewModelScope.launch {
+            _isLoading.value = true
+            _isSearchMode.value = true
+            val result = runCatching {
+                repository.getSearch(name)
+            }
+            result.onSuccess { response ->
+                _search.value = response.results
+                _isLoading.value = false
+            }.onFailure { error->
+                Log.d("MyLog", "Error: $error")
+                _search.value = emptyList()
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
+    }
+
+    fun clearSearch() {
+        _searchQuery.value = ""
+        _search.value = emptyList()
+        _isSearchMode.value = false
+        Log.d("MyLog", "❌ Поиск очищен")
+    }
+
+
+    fun getCurrentCharacters(): List<Character> {
+        return if (_isSearchMode.value) {
+            _search.value
+        } else {
+            _characters.value
+        }
+    }
+
 }
 
 

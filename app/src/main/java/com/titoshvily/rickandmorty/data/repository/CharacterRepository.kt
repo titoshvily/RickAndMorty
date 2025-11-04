@@ -16,6 +16,10 @@ class CharacterRepository {
         return api.getModelById(id)
     }
 
+    suspend fun getSearch(name:String) : CharactersResponse {
+        return api.getSearch(name)
+    }
+
 
 
 

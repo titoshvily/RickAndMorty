@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.titoshvily.rickandmorty.presentation.composable.CharacterList
 import com.titoshvily.rickandmorty.presentation.composable.LoadScreen
+import com.titoshvily.rickandmorty.presentation.composable.SearchBar
 import com.titoshvily.rickandmorty.presentation.viewmodel.CharacterViewModel
 import com.titoshvily.rickandmorty.ui.theme.RickAndMortyTheme
 
@@ -32,7 +33,10 @@ class MainActivity : ComponentActivity() {
             RickAndMortyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val characters by characterViewModel.characters.collectAsState()
+                    val searchResults by characterViewModel.search.collectAsState()
                     val isLoading by characterViewModel.isLoading.collectAsState()
+                    val searchQuery by characterViewModel.searchQuery.collectAsState()
+                    val isSearchMode by characterViewModel.isSearchMode.collectAsState()
 
 
 
@@ -42,16 +46,25 @@ class MainActivity : ComponentActivity() {
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        SearchBar(
+                            searchQuery = searchQuery,
+                            onSearchQueryChanged = { characterViewModel.onSearchQueryChanged(it) },
+                            onSearch = { query -> characterViewModel.loadSearchCharacters(query) },
+                            onClear = { characterViewModel.clearSearch() }
+                        )
+
+
+                        val displayList = if (isSearchMode) searchResults else characters
 
                         if (isLoading && characters.isEmpty()) {
                             LoadScreen()
                         } else {
 
                             CharacterList(
-                                characters = characters,
+                                characters = displayList,
                                 isLoading = isLoading,
                                 onLoadMore = { characterViewModel.loadCharactersPage() },
-                                hasNextPage = hasNextPage
+                                hasNextPage = if (isSearchMode) false else hasNextPage
                             )
 
                         }

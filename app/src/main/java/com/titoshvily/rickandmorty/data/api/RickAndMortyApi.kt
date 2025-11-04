@@ -18,4 +18,10 @@ interface RickAndMortyApi {
    ) : CharactersResponse
 
 
+    @GET("character/")
+    suspend fun getSearch(
+        @Query("name") name: String? = null
+    ) : CharactersResponse
+
+
 }
