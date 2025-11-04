@@ -57,7 +57,7 @@ fun SearchBar(
             // Иконка поиска
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Поиск",
+                contentDescription = "Search",
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
             )
@@ -71,7 +71,7 @@ fun SearchBar(
                     .padding(horizontal = 12.dp),
                 placeholder = {
                     Text(
-                        "Найти персонажа...",
+                        "Find person...",
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
@@ -112,7 +112,7 @@ fun SearchBar(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Очистить",
+                        contentDescription = "Clear",
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
