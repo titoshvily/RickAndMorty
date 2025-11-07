@@ -50,7 +50,7 @@ fun CharacterDetailScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.Transparent)
-                    .padding(16.dp),
+                    .padding(top = 48.dp, start = 16.dp),
                 contentAlignment = Alignment.TopStart
             ) {
                 IconButton(
@@ -63,6 +63,7 @@ fun CharacterDetailScreen(
                         )
                 ) {
                     Icon(
+
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color.White
