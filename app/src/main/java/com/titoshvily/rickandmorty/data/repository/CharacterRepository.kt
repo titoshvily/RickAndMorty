@@ -1,27 +1,10 @@
 package com.titoshvily.rickandmorty.data.repository
 
-import com.titoshvily.rickandmorty.data.api.RetrofitInstance
-import com.titoshvily.rickandmorty.data.model.Character
+import com.titoshvily.rickandmorty.data.model.CharacterFilter
 import com.titoshvily.rickandmorty.data.model.CharactersResponse
 
-class CharacterRepository {
-
-    private val api = RetrofitInstance.api
-
-    suspend fun getCharacters(page:Int): CharactersResponse{
-        return api.getCharacters(page)
-    }
-
-    suspend fun getCharactersById(id:Int): Character {
-        return api.getModelById(id)
-    }
-
-    suspend fun getSearch(name:String) : CharactersResponse {
-        return api.getSearch(name)
-    }
-
-
-
-
-
+interface CharacterRepository {
+    suspend fun getCharacters(page: Int): CharactersResponse
+    suspend fun getSearch(name: String, page: Int): CharactersResponse
+    suspend fun getCharactersWithFilter(filter: CharacterFilter, page: Int): CharactersResponse
 }

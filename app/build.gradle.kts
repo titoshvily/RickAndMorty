@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.2.21"
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -41,6 +43,18 @@ android {
 }
 
 dependencies {
+
+
+    // Room
+    implementation ("androidx.room:room-runtime:2.5.2")
+    implementation ("androidx.room:room-ktx:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
+
+
+    implementation ("androidx.work:work-runtime-ktx:2.8.1")
+
+        //Swipe Pull-to-Refresh
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
 
         //Lottie Animation
     implementation("com.airbnb.android:lottie-compose:6.7.1")

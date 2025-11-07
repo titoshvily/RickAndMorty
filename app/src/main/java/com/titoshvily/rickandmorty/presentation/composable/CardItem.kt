@@ -2,6 +2,7 @@ package com.titoshvily.rickandmorty.presentation.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,26 +31,26 @@ import coil.compose.rememberAsyncImagePainter
 import com.titoshvily.rickandmorty.data.model.Character
 
 @Composable
-fun CardItem(character: Character) {
+fun CardItem(
+    character: Character,
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
-            .aspectRatio(0.7f),
+            .aspectRatio(0.7f)
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(4.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-
+        Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = rememberAsyncImagePainter(character.image),
                 contentDescription = character.name,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
-
 
             Box(
                 modifier = Modifier
@@ -66,14 +67,12 @@ fun CardItem(character: Character) {
                     )
             )
 
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomStart)
                     .padding(8.dp)
             ) {
-
                 Text(
                     text = character.name,
                     color = Color.White,
@@ -84,7 +83,6 @@ fun CardItem(character: Character) {
                     modifier = Modifier.fillMaxWidth()
                 )
 
-
                 Text(
                     text = character.species,
                     color = Color.White.copy(alpha = 0.9f),
@@ -93,11 +91,7 @@ fun CardItem(character: Character) {
                     overflow = TextOverflow.Ellipsis
                 )
 
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
                             .size(8.dp)

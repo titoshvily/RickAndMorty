@@ -8,8 +8,6 @@ import retrofit2.http.Query
 
 interface RickAndMortyApi {
 
-    @GET("character/{id}")
-   suspend fun getModelById(@Path("id") id : Int): Character
 
 
    @GET("character/")
@@ -20,8 +18,18 @@ interface RickAndMortyApi {
 
     @GET("character/")
     suspend fun getSearch(
-        @Query("name") name: String? = null
+        @Query("name") name: String? = null,
+        @Query("page") page: Int? = null
     ) : CharactersResponse
 
+    @GET("character/")
+    suspend fun getCharactersWithFilters(
+        @Query("name") name: String? = null,
+        @Query("status") status: String? = null,
+        @Query("species") species: String? = null,
+        @Query("type") type: String? = null,
+        @Query("gender") gender: String? = null,
+        @Query("page") page: Int? = null
+    ): CharactersResponse
 
 }

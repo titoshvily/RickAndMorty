@@ -36,3 +36,24 @@ data class Info(
     val next: String?,
     val prev: String?
 )
+
+data class CharacterFilter(
+    val name: String = "",
+    val status: CharacterStatus? = null,
+    val species: String = "",
+    val type: String = "",
+    val gender: CharacterGender? = null
+)
+
+enum class CharacterStatus(val value: String) {
+    ALIVE("Alive"),
+    DEAD("Dead"),
+    UNKNOWN("unknown")
+}
+
+enum class CharacterGender(val value: String) {
+    FEMALE("Female"),
+    MALE("Male"),
+    GENDERLESS("Genderless"),
+    UNKNOWN("unknown")
+}

@@ -1,5 +1,6 @@
 package com.titoshvily.rickandmorty.presentation.composable
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,15 +10,12 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -26,10 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.titoshvily.rickandmorty.R
 
 @Composable
 fun SearchBar(
@@ -37,7 +37,9 @@ fun SearchBar(
     onSearchQueryChanged: (String) -> Unit,
     onSearch: (String) -> Unit,
     onClear: () -> Unit,
-    modifier: Modifier = Modifier
+    onFilterClick: () -> Unit,
+    isFilterActive: Boolean = false,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -54,7 +56,6 @@ fun SearchBar(
                 .padding(horizontal = 16.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Иконка поиска
             Icon(
                 imageVector = Icons.Default.Search,
                 contentDescription = "Search",
@@ -62,7 +63,6 @@ fun SearchBar(
                 modifier = Modifier.size(20.dp)
             )
 
-            // Поле ввода
             TextField(
                 value = searchQuery,
                 onValueChange = onSearchQueryChanged,
@@ -100,32 +100,39 @@ fun SearchBar(
                 )
             )
 
-            // Динамические иконки справа
-            if (searchQuery.isNotBlank()) {
-                // Анимированная иконка закрытия
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 IconButton(
-                    onClick = {
-                        onClear()
-                        focusManager.clearFocus()
-                    },
+                    onClick = onFilterClick,
                     modifier = Modifier.size(40.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "Clear",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        painter = painterResource(R.drawable.ic_filter),
+                        contentDescription = "Filter",
+                        tint = if (isFilterActive) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        }
                     )
                 }
-            } else {
-                // Декоративная иконка когда поле пустое
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Персонажи",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(10.dp)
-                )
+
+                if (searchQuery.isNotBlank()) {
+                    IconButton(
+                        onClick = {
+                            onClear()
+                            focusManager.clearFocus()
+                        },
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Clear",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
             }
         }
     }
