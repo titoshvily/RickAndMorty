@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "2.2.21"
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -41,6 +44,28 @@ android {
 
 dependencies {
 
+
+    // Room
+    implementation ("androidx.room:room-runtime:2.5.2")
+    implementation ("androidx.room:room-ktx:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
+
+
+    implementation ("androidx.work:work-runtime-ktx:2.8.1")
+
+        //Swipe Pull-to-Refresh
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
+
+        //Lottie Animation
+    implementation("com.airbnb.android:lottie-compose:6.7.1")
+
+        //coil
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+        //retrofit
+    implementation ("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation ("com.squareup.retrofit2:converter-gson:3.0.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -49,6 +74,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.foundation.layout)
+    implementation(libs.ui.graphics)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
